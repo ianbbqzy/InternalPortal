@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <h3>Teams</h3>
+    <div class="column">
+      <table class="table">
+        <tbody>
+          <% @teams.each do |team| %>
+            <tr>
+              <%= render team %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

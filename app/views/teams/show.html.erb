@@ -1,0 +1,9 @@
+<h3>Officers</h3>
+<p>Name: <%= @team.name if @team.name %></p>
+<ul>
+  <% @team.users.each do |officer| %>
+    <li>
+      <%=  link_to officer.first_name + " " + officer.last_name, officer %>
+    </li>
+	<% end %>
+</ul>

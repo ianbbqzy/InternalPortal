@@ -1,0 +1,6 @@
+<h3>Officer</h3>
+<p>Name: <%= @user.first_name + " " + @user.last_name if @user.first_name %></p>
+<p>Email: <%= @user.email if @user.email %></p>
+<p>Team: <%= link_to @user.team.name, @user.team %>
+
+</p>
