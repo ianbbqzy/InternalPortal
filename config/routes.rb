@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users
   resources :teams, only: [:index, :show]
+  resources :requests, only: [:new, :create, :edit, :update]
 
 end

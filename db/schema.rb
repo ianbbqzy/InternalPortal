@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160306203005) do
+ActiveRecord::Schema.define(version: 20160331181309) do
 
   create_table "events", force: :cascade do |t|
     t.string   "title"
@@ -22,10 +22,29 @@ ActiveRecord::Schema.define(version: 20160306203005) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "requests", force: :cascade do |t|
+    t.string   "description"
+    t.integer  "due_date"
+    t.integer  "requestable_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "requestor_id"
+    t.integer  "event_id"
+    t.boolean  "done"
+    t.boolean  "approved"
+    t.string   "requestable_type"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "name"
+  end
+
+  create_table "timeslots", force: :cascade do |t|
+    t.string   "time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_events", force: :cascade do |t|
@@ -33,6 +52,13 @@ ActiveRecord::Schema.define(version: 20160306203005) do
     t.datetime "updated_at", null: false
     t.integer  "user_id"
     t.integer  "event_id"
+  end
+
+  create_table "user_timeslots", force: :cascade do |t|
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "user_id"
+    t.integer  "timeslot_id"
   end
 
   create_table "users", force: :cascade do |t|

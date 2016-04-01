@@ -1,0 +1,8 @@
+<h1> Make a request </h1>
+<%= simple_form_for @request do |f| %>
+  <%= f.input :description %>
+  <%= f.input :due_date %>
+  <%= f.hidden_field :requestable_id, value: @user.id %>
+  <%= @user.id %>
+  <%= f.submit %>
+<% end %>

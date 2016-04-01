@@ -1,6 +1,35 @@
 <h3>Officer</h3>
 <p>Name: <%= @user.first_name + " " + @user.last_name if @user.first_name %></p>
 <p>Email: <%= @user.email if @user.email %></p>
-<p>Team: <%= link_to @user.team.name, @user.team %>
+<p>Team: <%= link_to @user.team.name, @user.team %> </p>
 
-</p>
+<p>Available Tabling time slots</p>
+  <% if @user.timeslots %>
+    <% @user.timeslots.each do |timeslot| %>
+      <p><%= timeslot %></p>
+    <% end %>
+  <% end %>
+
+
+<p>Requests</p>
+
+  <% if @user.requests %>
+    <% @user.requests.each do |request| %>
+      <p>
+        <%= request.description %>
+        <%= request.due_date %>
+        <% if request.requestor_id %>
+          <% @requestor = User.find(request.requestor_id)%>
+          requested by: <%= link_to @requestor.first_name, user_path(@requestor) %>
+          <% if request.requestor_id == current_user.id %>
+            <%= link_to 'Edit', edit_request_path(request) %>
+            <!-- buttons -->
+          <% end %>
+        <% end %>
+
+      </p>
+    <% end %>
+  <% end %>
+
+
+<p><%= link_to 'make request', new_request_path(:requestable_id => @user.id) %></p>
