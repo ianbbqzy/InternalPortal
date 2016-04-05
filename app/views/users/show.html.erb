@@ -3,7 +3,7 @@
 <p>Email: <%= @user.email if @user.email %></p>
 <p>Team: <%= link_to @user.team.name, @user.team %> </p>
 
-<p>Available Tabling time slots</p>
+<h2>Available Tabling time slots</h2>
   <% if @user.timeslots %>
     <% @user.timeslots.each do |timeslot| %>
       <p><%= timeslot %></p>
@@ -11,22 +11,31 @@
   <% end %>
 
 
-<p>Requests</p>
+<h2>Requests</h2>
 
   <% if @user.requests %>
-    <% @user.requests.each do |request| %>
+    <% @ordered = @user.requests.sort { |a,b| a.due_date <=> b.due_date } %>
+    <% @ordered.each do |request| %>
       <p>
-        <%= request.description %>
-        <%= request.due_date %>
-        <% if request.requestor_id %>
-          <% @requestor = User.find(request.requestor_id)%>
-          requested by: <%= link_to @requestor.first_name, user_path(@requestor) %>
-          <% if request.requestor_id == current_user.id %>
-            <%= link_to 'Edit', edit_request_path(request) %>
-            <!-- buttons -->
+        <% if request.approved == false%>
+          <%= request.description %>
+          due by: <%= request.due_date %>
+          <% if request.requestor_id %>
+            <% @requestor = User.find(request.requestor_id)%>
+            requested by: <%= link_to @requestor.first_name, user_path(@requestor) %>
+            <% if request.requestor_id == current_user.id %>
+              <%= link_to 'Edit', edit_request_path(request) %>
+            <% end %>
+            <% if request.requestor_id == current_user.id && request.done = true %>
+              <%= button_to "Approve", approve_path(id: request), :class => "button medium", :method => :patch %>
+            <% end %>
+            <% if request.requestable_id == current_user.id && request.requestable_type = "User" && request.done == false %>
+              <%= button_to "Done", done_path(id: request), :class => "button medium", :method => :patch %>
+            <% else %>
+              <p> done </p>
+            <% end %>
           <% end %>
         <% end %>
-
       </p>
     <% end %>
   <% end %>

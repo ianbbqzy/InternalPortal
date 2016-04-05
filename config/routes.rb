@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   resources :users
   resources :teams, only: [:index, :show]
   resources :requests, only: [:new, :create, :edit, :update]
-
+  patch 'approve', to: 'requests#approve', as: 'approve'
+  patch 'done', to: 'requests#done' , as: 'done'
 end

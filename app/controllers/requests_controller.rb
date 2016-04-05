@@ -9,8 +9,21 @@ class RequestsController < ApplicationController
 
   end
 
-  def create
+  def approve
+    @request = Request.find(params[:id])
+    @request.approved = true
+    @request.save
+    redirect_to user_path(@request.requestable_id)
+  end
 
+  def done
+    @request = Request.find(params[:id])
+    @request.done = true
+    @request.save
+    redirect_to user_path(@request.requestable_id)
+  end
+
+  def create
     @request = Request.new request_params
     @request.requestor_id = current_user.id
     @request.requestable_type = "User"
