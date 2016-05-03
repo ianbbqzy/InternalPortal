@@ -6,10 +6,12 @@
 <h2>Available Tabling time slots</h2>
   <% if @user.timeslots %>
     <% @user.timeslots.each do |timeslot| %>
-      <p><%= timeslot %></p>
+      <p><%= timeslot.time %></p>
     <% end %>
   <% end %>
-
+<% if @user == current_user %>
+  <%= link_to 'Edit available timeslots', timeslots_path(:id => @user.id) %>
+<% end %>
 
 <h2>Requests</h2>
 
@@ -26,13 +28,15 @@
             <% if request.requestor_id == current_user.id %>
               <%= link_to 'Edit', edit_request_path(request) %>
             <% end %>
-            <% if request.requestor_id == current_user.id && request.done = true %>
+            <% if request.requestor_id == current_user.id && request.done == true %>
               <%= button_to "Approve", approve_path(id: request), :class => "button medium", :method => :patch %>
             <% end %>
-            <% if request.requestable_id == current_user.id && request.requestable_type = "User" && request.done == false %>
-              <%= button_to "Done", done_path(id: request), :class => "button medium", :method => :patch %>
-            <% else %>
-              <p> done </p>
+            <% if request.requestable_id == current_user.id && request.requestable_type == "User" %>
+              <% if request.done == false %>
+                <%= button_to "Done", done_path(id: request), :class => "button medium", :method => :patch %>
+              <% else %>
+                <p> done </p>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>

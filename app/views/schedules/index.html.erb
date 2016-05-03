@@ -1,0 +1,31 @@
+<h>wats up</h>
+
+<div class="container">
+  <div class="row">
+    <h3>Schedules</h3>
+    <div class="column">
+      <table class="table">
+        <tbody>
+          <% @schedules.each do |f| %>
+            <tr>
+              <p>
+              <% f.assignment.each do |key, array| %>
+                <% if key == "Error"%>
+                  <%= "No available schedule" %>
+                  <% next %>
+                <% end %>
+                <%= key.time %>
+                <% array.each do |g| %>
+                  <%= g.first_name %>
+                <% end %>
+              <% end %>
+            </p>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<p><%= link_to 'Tabling schedule', new_schedule_path %> </p>

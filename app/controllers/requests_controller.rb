@@ -12,6 +12,7 @@ class RequestsController < ApplicationController
   def approve
     @request = Request.find(params[:id])
     @request.approved = true
+    @request.done = false
     @request.save
     redirect_to user_path(@request.requestable_id)
   end

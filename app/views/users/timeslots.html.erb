@@ -1,0 +1,5 @@
+<center><h1> Update your available times </h1></center>
+<%= simple_form_for @user do |f| %>
+  <%= f.association :timeslots, :as => :check_boxes %>
+  <%= f.submit "Edit timeslots", :class => "button_custom" %>
+<% end %>

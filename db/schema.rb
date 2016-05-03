@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160331181309) do
+ActiveRecord::Schema.define(version: 20160502010126) do
 
   create_table "events", force: :cascade do |t|
     t.string   "title"
@@ -35,6 +35,28 @@ ActiveRecord::Schema.define(version: 20160331181309) do
     t.string   "requestable_type"
   end
 
+  create_table "schedule_timeslots", force: :cascade do |t|
+    t.integer  "timeslot_id"
+    t.integer  "schedule_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "schedule_users", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "schedule_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.text     "assignment"
+    t.integer  "timeslot_id"
+    t.integer  "user_id"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -45,6 +67,7 @@ ActiveRecord::Schema.define(version: 20160331181309) do
     t.string   "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id"
   end
 
   create_table "user_events", force: :cascade do |t|
