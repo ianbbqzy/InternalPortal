@@ -9,6 +9,7 @@
           <% @schedules.each do |f| %>
             <tr>
               <p>
+              <%= f.title %>
               <% f.assignment.each do |key, array| %>
                 <% if key == "Error"%>
                   <%= "No available schedule" %>

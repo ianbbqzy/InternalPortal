@@ -13,33 +13,56 @@ class SchedulesController < ApplicationController
     def create
         @schedule = Schedule.new schedule_params
         def assignShifts
-            if @schedule.timeslots.length < @schedule.users.length
+            available_officers = []
+            (1..@schedule.shifts).each do |n|
+              available_officers.concat(@schedule.users) # concat more if shifts/officer > 1
+            end
+            if @schedule.timeslots.length * @schedule.numOfOfficers > available_officers.length
                 puts "assignShifts sanity check"
                 return nil
             end
-            available_officers = @schedule.users # concat more if shifts/officer > 1
-            return recursive_backtracking({}, available_officers)
+            assignment = {}
+            @schedule.timeslots.each do |f|
+                assignment[f] = []
+            end
+            return recursive_backtracking(assignment, available_officers)
+        end
+
+        def valid_assignment(assignment)
+            puts assignment
+            puts "true?"
+            assignment.each do |key, value|
+                puts "at all?"
+                if value.length != @schedule.numOfOfficers
+                    return false
+                end
+            end
+            puts "true right"
+            return true
         end
 
         def recursive_backtracking(assignment, available_officers)
             puts assignment.length
             puts @schedule.timeslots.length
-            if assignment.length == @schedule.timeslots.length #not gonna work yet cus each assignment needs to be size 2
+            if valid_assignment(assignment) #not gonna work yet cus each assignment needs to be size 2
                 puts "recursive base case"
                 return assignment
             end
             puts "before select call"
             temp = select_unassigned_variable(assignment)
-            temp.users.each do |f|
+            if temp == nil
+                return nil
+            end
+            temp.users.shuffle.each do |f|
                 puts "bro"
-                if available_officers.include?(f)
+                if available_officers.include?(f) && !assignment[temp].include?(f)
                   if assignment[temp]
                       assignment[temp].push(f)
-                      available_officers.delete(f)
+                      available_officers.delete_at(available_officers.index(f) || available_officers.length)
                   else
                       assignment[temp] = []
                       assignment[temp].push(f)
-                      available_officers.delete(f)
+                      available_officers.delete_at(available_officers.index(f) || available_officers.length)
                   end
                   new_assignment = recursive_backtracking(assignment, available_officers)
                   if new_assignment != nil
@@ -54,11 +77,13 @@ class SchedulesController < ApplicationController
 
         def select_unassigned_variable(assignment)
             @schedule.timeslots.each do |f|
-                if assignment[f] == nil# change this to assignment[f].length < shifts/user
+                puts "where am i"
+                if assignment[f].length < @schedule.shifts# change this to assignment[f].length < shifts/user
                     puts "selecting"
                     return f
                 end
             end
+            return nil
         end
 
         @schedule.assignment = assignShifts
@@ -72,10 +97,7 @@ class SchedulesController < ApplicationController
     private
 
     def schedule_params
-      params.require(:schedule).permit(:timeslot_ids => [], :user_ids => []) # description, shifts/officer
+      params.require(:schedule).permit(:title, :shifts, :numOfOfficers, :timeslot_ids => [], :user_ids => []) # description, shifts/officer
     end
-
-
-
 
 end

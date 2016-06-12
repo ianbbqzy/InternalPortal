@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160502010126) do
+ActiveRecord::Schema.define(version: 20160612220133) do
 
   create_table "events", force: :cascade do |t|
     t.string   "title"
@@ -50,11 +50,14 @@ ActiveRecord::Schema.define(version: 20160502010126) do
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.text     "assignment"
     t.integer  "timeslot_id"
     t.integer  "user_id"
+    t.string   "title"
+    t.integer  "shifts"
+    t.integer  "numOfOfficers"
   end
 
   create_table "teams", force: :cascade do |t|

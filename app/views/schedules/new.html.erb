@@ -1,5 +1,8 @@
 <center><h1> Make a new schedule </h1></center>
 <%= simple_form_for @schedule do |f| %>
+  <%= f.input :title %>
+  <%= f.input :shifts %>
+  <%= f.input :numOfOfficers %>
   <%= f.association :timeslots, :as => :check_boxes %>
   <%= f.association :users, :as => :check_boxes %>
   <%= f.submit "Edit schedule", :class => "button_custom" %>

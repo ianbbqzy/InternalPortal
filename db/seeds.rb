@@ -40,7 +40,7 @@ end
 t = Timeslot.create time: '12pm-1pm'
 4.times do |f|
   t.user_timeslots.create(
-    user: users[f+4]
+    user: users[f]
   )
 end
 t = Timeslot.create time: '1pm-2pm'
