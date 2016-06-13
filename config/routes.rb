@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root to: "home#index"
   devise_for :users
   resources :users
-  resources :schedules, only: [:new, :show, :index, :create]
+  resources :schedules, only: [:new, :show, :index, :create, :destroy]
   resources :teams, only: [:index, :show]
   resources :requests, only: [:new, :create, :edit, :update]
   patch 'approve', to: 'requests#approve', as: 'approve'

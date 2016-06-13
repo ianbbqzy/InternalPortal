@@ -4,10 +4,16 @@ class SchedulesController < ApplicationController
         @schedules = Schedule.all
     end
 
-    def new
 
+    def new
         @schedule = Schedule.new
         # assignShifts()
+    end
+
+    def destroy
+        @schedule = Schedule.find(params[:id])
+        @schedule.delete
+        redirect_to schedules_path
     end
 
     def create
@@ -56,14 +62,8 @@ class SchedulesController < ApplicationController
             temp.users.shuffle.each do |f|
                 puts "bro"
                 if available_officers.include?(f) && !assignment[temp].include?(f)
-                  if assignment[temp]
-                      assignment[temp].push(f)
-                      available_officers.delete_at(available_officers.index(f) || available_officers.length)
-                  else
-                      assignment[temp] = []
-                      assignment[temp].push(f)
-                      available_officers.delete_at(available_officers.index(f) || available_officers.length)
-                  end
+                  assignment[temp].push(f)
+                  available_officers.delete_at(available_officers.index(f) || available_officers.length)
                   new_assignment = recursive_backtracking(assignment, available_officers)
                   if new_assignment != nil
                       return new_assignment

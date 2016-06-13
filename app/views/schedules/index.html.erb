@@ -4,27 +4,32 @@
   <div class="row">
     <h3>Schedules</h3>
     <div class="column">
-      <table class="table">
+
         <tbody>
           <% @schedules.each do |f| %>
-            <tr>
+
               <p>
               <%= f.title %>
+              <table class="table">
+              <tr>
               <% f.assignment.each do |key, array| %>
                 <% if key == "Error"%>
                   <%= "No available schedule" %>
                   <% next %>
                 <% end %>
-                <%= key.time %>
-                <% array.each do |g| %>
+                <td><%= key.time %></td>
+                <td><% array.each do |g| %>
                   <%= g.first_name %>
-                <% end %>
+                <% end %></td>
               <% end %>
+              </tr>
+              </table>
+              <p><%= link_to 'remove schedule', schedule_path(:id => f.id), method: :delete %> </p>
             </p>
-            </tr>
+
           <% end %>
         </tbody>
-      </table>
+
     </div>
   </div>
 </div>
